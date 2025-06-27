@@ -1,0 +1,147 @@
+.home-container {
+  height: 91vh;
+  width: 96vw;
+  background: linear-gradient(135deg, #ff5252, #42a5f5, #ffee58);
+  background-size: 600% 600%;
+  animation: gradientShift 12s ease infinite;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  overflow-x: hidden;
+
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 1.2rem;
+  color: #fdfdfd;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 🔽 Estilos nuevos para equipos y botones */
+
+.equipos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.equipo-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 340px;
+  text-align: center;
+}
+
+.equipo-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.pokemon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pokemon-item img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+}
+
+.pokemon-item p {
+  font-size: 0.9rem;
+  color: #444;
+  margin-top: 0.3rem;
+}
+
+.equipo-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.equipo-actions button {
+  flex: 1;
+  background-color: #f44336;
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.equipo-actions button:hover {
+  background-color: #c62828;
+}
+
+.crear-equipo-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.crear-equipo-btn-container button {
+  padding: 0.7rem 3rem;
+  background-color: #ae32bc;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.crear-equipo-btn-container button:hover {
+  background-color: #ba48c5;
+}
+
+.sin-equipos {
+  margin-top: 3rem;
+  font-size: 1.3rem;
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+}
+
+.sin-pokemon {
+  font-size: 1rem;
+  color: #000000;
+  font-style: italic;
+  grid-column: span 3;
+  text-align: center;
+}
