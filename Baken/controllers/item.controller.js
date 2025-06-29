@@ -1,7 +1,6 @@
 const db = require('../models');
 const Item = db.Item;
 
-// createItem ahora solo extrae req.file.path
 const createItem = async (req, res) => {
   try {
     const { nombre } = req.body;
@@ -14,7 +13,7 @@ const createItem = async (req, res) => {
   }
 };
 
-// ... los demás métodos sin cambios
+
 const getAllItems = async (req, res) => {
   try {
     const items = await Item.findAll();

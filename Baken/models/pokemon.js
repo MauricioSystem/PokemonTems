@@ -38,7 +38,7 @@ const Pokemon = sequelize.define('Pokemon', {
   }
 });
 
-// Asociación inversa: Un Pokémon pertenece a un equipo
+
 Pokemon.associate = (models) => {
   Pokemon.belongsTo(models.Equipo, {
     foreignKey: 'equipoId',

@@ -1,7 +1,7 @@
 const db = require('../models');
 const Poder = db.Poder;
 
-// 📌 Crear poder
+
 const createPoder = async (req, res) => {
   try {
     const poder = await Poder.create(req.body);
@@ -11,7 +11,7 @@ const createPoder = async (req, res) => {
   }
 };
 
-// 🔍 Obtener todos
+
 const getAll = async (req, res) => {
   try {
     const poderes = await Poder.findAll();
@@ -21,7 +21,7 @@ const getAll = async (req, res) => {
   }
 };
 
-// 🔍 Obtener por ID
+
 const getById = async (req, res) => {
   try {
     const poder = await Poder.findByPk(req.params.id);
@@ -32,7 +32,6 @@ const getById = async (req, res) => {
   }
 };
 
-// ✏️ Editar poder
 const updatePoder = async (req, res) => {
   try {
     const poder = await Poder.findByPk(req.params.id);
@@ -45,7 +44,7 @@ const updatePoder = async (req, res) => {
   }
 };
 
-// 🗑️ Eliminar poder
+
 const deletePoder = async (req, res) => {
   try {
     const poder = await Poder.findByPk(req.params.id);

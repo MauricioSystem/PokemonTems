@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 
 export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actualizarStat, eliminarPokemon }) {
   const [totalEV, setTotalEV] = useState(0);
-  const [statsFinales, setStatsFinales] = useState({});
   const [itemSeleccionado, setItemSeleccionado] = useState(null);
+  const [boostStat, setBoostStat] = useState(null);
+  const [nerfStat, setNerfStat] = useState(null);
 
   useEffect(() => {
     const total = ['evHp', 'evAtk', 'evDef', 'evSpAtk', 'evSpDef', 'evSpeed']
@@ -14,36 +15,10 @@ export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actua
   }, [poke]);
 
   useEffect(() => {
-    const nivel = 50;
     const naturaleza = tiposNaturaleza.find(n => n.id === poke.naturalezaId);
-    const boostStat = naturaleza?.afectaStatPos;
-    const nerfStat = naturaleza?.afectaStatNeg;
-
-    const calcularStat = (base, iv, ev, statKey) => {
-      const baseVal = Math.floor(((2 * base + iv + Math.floor(ev / 4)) * nivel) / 100);
-      let final = statKey === 'hp'
-        ? baseVal + nivel + 10
-        : baseVal + 5;
-
-      if (statKey !== 'hp') {
-        if (statKey === boostStat) final = Math.floor(final * 1.1);
-        if (statKey === nerfStat) final = Math.floor(final * 0.9);
-      }
-
-      return final;
-    };
-
-    const nuevosStats = {
-      hp: calcularStat(poke.hp, poke.ivHp, poke.evHp, 'hp'),
-      attack: calcularStat(poke.attack, poke.ivAtk, poke.evAtk, 'attack'),
-      defense: calcularStat(poke.defense, poke.ivDef, poke.evDef, 'defense'),
-      spAtk: calcularStat(poke.spAtk, poke.ivSpAtk, poke.evSpAtk, 'spAtk'),
-      spDef: calcularStat(poke.spDef, poke.ivSpDef, poke.evSpDef, 'spDef'),
-      speed: calcularStat(poke.speed, poke.ivSpeed, poke.evSpeed, 'speed')
-    };
-
-    setStatsFinales(nuevosStats);
-  }, [poke, tiposNaturaleza]);
+    setBoostStat(naturaleza?.afectaStatPos || null);
+    setNerfStat(naturaleza?.afectaStatNeg || null);
+  }, [poke.naturalezaId, tiposNaturaleza]);
 
   useEffect(() => {
     const item = items.find(i => i.id === poke.itemId);
@@ -58,6 +33,21 @@ export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actua
   const handleIVChange = (stat, value) => {
     const val = Math.min(31, Math.max(0, parseInt(value) || 0));
     actualizarStat(index, stat, val);
+  };
+
+  const statBaseMap = {
+    hp: poke.hp,
+    attack: poke.attack,
+    defense: poke.defense,
+    spAtk: poke.spAtk,
+    spDef: poke.spDef,
+    speed: poke.speed
+  };
+
+  const getStatClass = (statKey) => {
+    if (statKey === boostStat) return 'iv-input boost';
+    if (statKey === nerfStat) return 'iv-input nerf';
+    return 'iv-input';
   };
 
   return (
@@ -96,7 +86,7 @@ export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actua
           />
         ))}
 
-        <label>IVs (0–31) con stats finales</label>
+        <label>IVs (0–31) con base</label>
         <div className="ivs-row">
           {[
             { key: 'ivHp', statKey: 'hp' },
@@ -110,12 +100,13 @@ export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actua
               <input
                 type="number"
                 placeholder={key}
+                className={getStatClass(statKey)}
                 value={poke[key] === 0 ? '' : poke[key]}
                 onChange={(e) => handleIVChange(key, e.target.value)}
                 min={0}
                 max={31}
               />
-              <span className="stat-final">{statsFinales[statKey] || ''}</span>
+              <span className="stat-final">{statBaseMap[statKey]}</span>
             </div>
           ))}
         </div>

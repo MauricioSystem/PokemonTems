@@ -107,8 +107,70 @@ const eliminarEquipo = async (req, res) => {
   }
 };
 
+const editarEquipo = async (req, res) => {
+  const usuarioId = req.user?.id;
+  const equipoId = req.params.id;
+  const { nombre, pokemons } = req.body;
+
+  if (!nombre || !Array.isArray(pokemons) || pokemons.length < 1 || pokemons.length > 6) {
+    return res.status(400).json({ error: 'Nombre y entre 1 a 6 Pokémon son requeridos' });
+  }
+
+  try {
+    const equipo = await Equipo.findOne({ where: { id: equipoId, usuarioId } });
+    if (!equipo) return res.status(404).json({ error: 'Equipo no encontrado' });
+
+    equipo.nombre = nombre;
+    await equipo.save();
+
+    await Pokemon.destroy({ where: { equipoId } });
+
+    for (const pokeData of pokemons) {
+      await Pokemon.create({
+        nombre: pokeData.nombre,
+        imagen: pokeData.imagen,
+        tipoId: pokeData.tipoId,
+        poderU: pokeData.poderU,
+        poder1: pokeData.poder1,
+        poder2: pokeData.poder2,
+        poder3: pokeData.poder3,
+        hp: pokeData.hp,
+        attack: pokeData.attack,
+        defense: pokeData.defense,
+        spAtk: pokeData.spAtk,
+        spDef: pokeData.spDef,
+        speed: pokeData.speed,
+        naturalezaId: pokeData.naturalezaId || null,
+        itemId: pokeData.itemId || null,
+        evHp: pokeData.evHp || 0,
+        evAtk: pokeData.evAtk || 0,
+        evDef: pokeData.evDef || 0,
+        evSpAtk: pokeData.evSpAtk || 0,
+        evSpDef: pokeData.evSpDef || 0,
+        evSpeed: pokeData.evSpeed || 0,
+        ivHp: pokeData.ivHp || 0,
+        ivAtk: pokeData.ivAtk || 0,
+        ivDef: pokeData.ivDef || 0,
+        ivSpAtk: pokeData.ivSpAtk || 0,
+        ivSpDef: pokeData.ivSpDef || 0,
+        ivSpeed: pokeData.ivSpeed || 0,
+        equipoId: equipo.id
+      });
+    }
+
+    res.json({ mensaje: 'Equipo actualizado correctamente' });
+  } catch (error) {
+    console.error('Error al editar el equipo:', error);
+    res.status(500).json({ error: 'Error al editar el equipo' });
+  }
+};
+
+
+
+ 
 module.exports = {
   crearEquipo,
   getEquiposUsuario,
-  eliminarEquipo
+  eliminarEquipo,
+  editarEquipo
 };

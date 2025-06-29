@@ -53,4 +53,36 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: ['id', 'username', 'email', 'esAdmin']
+    });
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener usuarios' });
+  }
+};
+
+const toggleAdmin = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+    user.esAdmin = !user.esAdmin;
+    await user.save();
+
+    res.json({ message: 'Rol actualizado correctamente', esAdmin: user.esAdmin });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al actualizar rol' });
+  }
+};
+
+module.exports = {
+  register,
+  login,
+  getAllUsers,
+  toggleAdmin
+};
+

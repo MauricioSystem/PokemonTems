@@ -93,4 +93,13 @@
       }
     }
   }
+
+  // Estilos adicionales para boost y nerf
+  .iv-input.boost {
+    border: 2px solid #00ff88 !important;
+  }
+
+  .iv-input.nerf {
+    border: 2px solid #ff4444 !important;
+  }
 }

@@ -3,20 +3,17 @@ const router = express.Router();
 const {
   crearEquipo,
   getEquiposUsuario,
-  eliminarEquipo
+  eliminarEquipo,
+  editarEquipo 
 } = require('../controllers/equipo.controller');
 const authMiddleware = require('../middleware/authMiddleware');
 
-// Todas las rutas requieren autenticación
+
 router.use(authMiddleware);
 
-// Crear equipo
 router.post('/', crearEquipo);
-
-// Obtener equipos del usuario
 router.get('/', getEquiposUsuario);
-
-// Eliminar equipo por ID
-router.delete('/:id', eliminarEquipo);  // <--- RUTA NUEVA
+router.put('/:id', editarEquipo); 
+router.delete('/:id', eliminarEquipo);
 
 module.exports = router;

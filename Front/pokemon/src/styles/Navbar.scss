@@ -46,3 +46,22 @@
     }
   }
 }
+.usuarios-dropdown {
+  position: relative;
+
+  select {
+    appearance: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    background-color: white;
+    color: black;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  option {
+    color: black;
+  }
+}

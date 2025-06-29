@@ -6,6 +6,7 @@ import CrearPokemonPage from './pages/CrearPokemonPage';
 import CrearPoderPage from './pages/CrearPoderPage';
 import CrearEquipoPage from './pages/CrearEquipoPage'; 
 import AdminRoute from './components/AdminRoute';
+import EditarEquipoPage from './pages/EditarEquipoPage';
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
         } />
 
         <Route path="/crear-equipo" element={<CrearEquipoPage />} />
+        <Route path="/editar-equipo/:id" element={<EditarEquipoPage />} />
+        
       </Routes>
     </BrowserRouter>
   );
