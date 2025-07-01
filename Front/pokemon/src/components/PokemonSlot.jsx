@@ -1,7 +1,7 @@
 import '../styles/PokemonSlot.scss';
 import { useEffect, useState } from 'react';
 
-export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actualizarStat, eliminarPokemon }) {
+export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actualizarStat, eliminarPokemon, poderes = [] }) {
   const [totalEV, setTotalEV] = useState(0);
   const [itemSeleccionado, setItemSeleccionado] = useState(null);
   const [boostStat, setBoostStat] = useState(null);
@@ -71,6 +71,9 @@ export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actua
           className="pokemon-img"
         />
       </div>
+      <div className="tipo-texto">
+        Tipo: <strong>{poke.tipo}</strong>
+      </div>
 
       <div className="stats">
         <label>EVs restantes: {508 - totalEV}</label>
@@ -130,6 +133,43 @@ export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actua
             <option key={i.id} value={i.id}>{i.nombre}</option>
           ))}
         </select>
+<div className="poderes-section">
+  <label>Poder único (no editable):</label>
+  <input type="text" value={poke.poderU || ''} readOnly />
+
+  <label>Poder 1:</label>
+  <select
+    value={poke.poder1Id || ''}
+    onChange={(e) => actualizarStat(index, 'poder1Id', e.target.value)}
+  >
+    <option value="">Seleccionar poder</option>
+    {poderes.map(p => (
+      <option key={p.id} value={p.id}>{p.nombre}</option>
+    ))}
+  </select>
+
+  <label>Poder 2:</label>
+  <select
+    value={poke.poder2Id || ''}
+    onChange={(e) => actualizarStat(index, 'poder2Id', e.target.value)}
+  >
+    <option value="">Seleccionar poder</option>
+    {poderes.map(p => (
+      <option key={p.id} value={p.id}>{p.nombre}</option>
+    ))}
+  </select>
+
+  <label>Poder 3:</label>
+  <select
+    value={poke.poder3Id || ''}
+    onChange={(e) => actualizarStat(index, 'poder3Id', e.target.value)}
+  >
+    <option value="">Seleccionar poder</option>
+    {poderes.map(p => (
+      <option key={p.id} value={p.id}>{p.nombre}</option>
+    ))}
+  </select>
+</div>
       </div>
     </div>
   );

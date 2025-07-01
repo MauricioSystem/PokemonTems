@@ -7,8 +7,10 @@ import PokemonSlot from '../components/PokemonSlot';
 export default function CrearEquipoPage() {
   const [nombreEquipo, setNombreEquipo] = useState('');
   const [pokemonsDisponibles, setPokemonsDisponibles] = useState([]);
+  const [tipos, setTipos] = useState([]);
   const [tiposNaturaleza, setTiposNaturaleza] = useState([]);
   const [items, setItems] = useState([]);
+  const [poderes, setPoderes] = useState([]);
   const [miEquipo, setMiEquipo] = useState([]);
   const [mostrarSeleccion, setMostrarSeleccion] = useState(false);
   const navigate = useNavigate();
@@ -17,14 +19,18 @@ export default function CrearEquipoPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [pokeRes, natRes, itemRes] = await Promise.all([
+        const [pokeRes, natRes, itemRes, poderRes, tiposRes] = await Promise.all([
           api.get('/pokemon'),
           api.get('/naturalezas'),
-          api.get('/items')
+          api.get('/items'),
+          api.get('/poderes'),
+          api.get('/tipos')
         ]);
         setPokemonsDisponibles(pokeRes.data);
         setTiposNaturaleza(natRes.data);
         setItems(itemRes.data);
+        setTipos(tiposRes.data);
+        setPoderes(poderRes.data);
       } catch (error) {
         console.error('Error al cargar datos:', error);
       }
@@ -35,11 +41,15 @@ export default function CrearEquipoPage() {
   const agregarPokemon = (pokemon) => {
     if (miEquipo.length >= 6) return alert('Máximo 6 Pokémon por equipo');
 
+    const tipoObj = tipos.find(t => t.id === pokemon.tipoId);
+    const tipoNombre = tipoObj ? tipoObj.nombre : 'Desconocido';
+
     setMiEquipo([...miEquipo, {
       id: pokemon.id,
       nombre: pokemon.nombre,
       imagen: pokemon.imagen,
       tipoId: pokemon.tipoId,
+      tipo: tipoNombre, // ✅ Agregado
       poderU: pokemon.poderU,
       poder1: pokemon.poder1,
       poder2: pokemon.poder2,
@@ -140,6 +150,7 @@ export default function CrearEquipoPage() {
               items={items}
               actualizarStat={actualizarStat}
               eliminarPokemon={eliminarPokemon}
+              poderes={poderes}
             />
           ))}
         </div>

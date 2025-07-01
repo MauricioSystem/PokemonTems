@@ -10,6 +10,8 @@ export default function EditarEquipoPage() {
   const [pokemonsDisponibles, setPokemonsDisponibles] = useState([]);
   const [tiposNaturaleza, setTiposNaturaleza] = useState([]);
   const [items, setItems] = useState([]);
+  const [poderes, setPoderes] = useState([]);
+  const [tipos, setTipos] = useState([]);
   const [miEquipo, setMiEquipo] = useState([]);
   const [mostrarSeleccion, setMostrarSeleccion] = useState(false);
   const navigate = useNavigate();
@@ -18,18 +20,20 @@ export default function EditarEquipoPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [pokeRes, natRes, itemRes, equipoRes] = await Promise.all([
+        const [pokeRes, natRes, itemRes, poderRes, tiposRes, equipoRes] = await Promise.all([
           api.get('/pokemon'),
           api.get('/naturalezas'),
           api.get('/items'),
-          api.get(`/equipos`, {
-            headers: { Authorization: token }
-          })
+          api.get('/poderes'),
+          api.get('/tipos'),
+          api.get('/equipos', { headers: { Authorization: token } })
         ]);
 
         setPokemonsDisponibles(pokeRes.data);
         setTiposNaturaleza(natRes.data);
         setItems(itemRes.data);
+        setPoderes(poderRes.data);
+        setTipos(tiposRes.data);
 
         const equipo = equipoRes.data.find(e => e.id === parseInt(id));
         if (!equipo) {
@@ -39,7 +43,31 @@ export default function EditarEquipoPage() {
         }
 
         setNombreEquipo(equipo.nombre);
-        setMiEquipo(equipo.pokemons);
+
+        const equipoMapeado = equipo.pokemons.map(p => {
+          const tipoObj = tiposRes.data.find(t => t.id === p.tipoId);
+          return {
+            ...p,
+            tipo: tipoObj ? tipoObj.nombre : 'Desconocido',
+            evHp: p.evHp ?? 0,
+            evAtk: p.evAtk ?? 0,
+            evDef: p.evDef ?? 0,
+            evSpAtk: p.evSpAtk ?? 0,
+            evSpDef: p.evSpDef ?? 0,
+            evSpeed: p.evSpeed ?? 0,
+            ivHp: p.ivHp ?? 0,
+            ivAtk: p.ivAtk ?? 0,
+            ivDef: p.ivDef ?? 0,
+            ivSpAtk: p.ivSpAtk ?? 0,
+            ivSpDef: p.ivSpDef ?? 0,
+            ivSpeed: p.ivSpeed ?? 0,
+            poder1Id: p.poder1Id ?? p.poder1?.id ?? '',
+            poder2Id: p.poder2Id ?? p.poder2?.id ?? '',
+            poder3Id: p.poder3Id ?? p.poder3?.id ?? ''
+          };
+        });
+
+        setMiEquipo(equipoMapeado);
       } catch (error) {
         console.error('Error al cargar datos:', error);
       }
@@ -51,15 +79,19 @@ export default function EditarEquipoPage() {
   const agregarPokemon = (pokemon) => {
     if (miEquipo.length >= 6) return alert('Máximo 6 Pokémon por equipo');
 
+    const tipoObj = tipos.find(t => t.id === pokemon.tipoId);
+    const tipoNombre = tipoObj ? tipoObj.nombre : 'Desconocido';
+
     setMiEquipo([...miEquipo, {
       id: pokemon.id,
       nombre: pokemon.nombre,
       imagen: pokemon.imagen,
       tipoId: pokemon.tipoId,
+      tipo: tipoNombre,
       poderU: pokemon.poderU,
-      poder1: pokemon.poder1,
-      poder2: pokemon.poder2,
-      poder3: pokemon.poder3,
+      poder1Id: '',
+      poder2Id: '',
+      poder3Id: '',
       hp: pokemon.hp,
       attack: pokemon.attack,
       defense: pokemon.defense,
@@ -157,6 +189,7 @@ export default function EditarEquipoPage() {
               items={items}
               actualizarStat={actualizarStat}
               eliminarPokemon={eliminarPokemon}
+              poderes={poderes}
             />
           ))}
         </div>
