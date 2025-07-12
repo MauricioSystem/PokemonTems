@@ -15,7 +15,7 @@ export default function RegisterPage() {
       const res = await api.post('/auth/register', { username, email, password });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('username', res.data.username);
-      navigate('/');
+      navigate('/login');
     // eslint-disable-next-line no-unused-vars
     } catch (err) {
       alert('Error al registrar');

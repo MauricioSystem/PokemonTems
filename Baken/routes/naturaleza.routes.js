@@ -1,12 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {
-  createNaturaleza,
-  getAllNaturalezas,
-  getNaturalezaById,
-  updateNaturaleza,
-  deleteNaturaleza
-} = require('../controllers/naturaleza.controller');
+const {createNaturaleza,getAllNaturalezas,getNaturalezaById,updateNaturaleza, deleteNaturaleza} = require('../controllers/naturaleza.controller');
 
 router.post('/', createNaturaleza);
 router.get('/', getAllNaturalezas);

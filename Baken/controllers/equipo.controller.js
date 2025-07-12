@@ -31,7 +31,7 @@ const crearEquipo = async (req, res) => {
       };
 
       await Pokemon.create({
-        nombre: original.nombre,
+        nombre: pokeData.nombre || original.nombre,
         imagen: original.imagen,
         tipoId: original.tipoId,
         poderU: original.poderU,

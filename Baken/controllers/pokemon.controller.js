@@ -2,7 +2,6 @@ const db = require('../models');
 const Pokemon = db.Pokemon;
 const path = require('path');
 
-// Crear Pokémon con imagen
 const createPokemon = async (req, res) => {
   try {
     const data = req.body;
@@ -16,7 +15,6 @@ const createPokemon = async (req, res) => {
   }
 };
 
-// Obtener todos
 const getAll = async (req, res) => {
   try {
     const pokemons = await Pokemon.findAll({ where: { equipoId: null } });
@@ -26,7 +24,6 @@ const getAll = async (req, res) => {
   }
 };
 
-// Obtener por ID
 const getById = async (req, res) => {
   try {
     const pokemon = await Pokemon.findByPk(req.params.id);
@@ -37,7 +34,7 @@ const getById = async (req, res) => {
   }
 };
 
-// Editar
+
 const updatePokemon = async (req, res) => {
   try {
     const pokemon = await Pokemon.findByPk(req.params.id);
@@ -53,7 +50,6 @@ const updatePokemon = async (req, res) => {
   }
 };
 
-// Eliminar
 const deletePokemon = async (req, res) => {
   try {
     const pokemon = await Pokemon.findByPk(req.params.id);

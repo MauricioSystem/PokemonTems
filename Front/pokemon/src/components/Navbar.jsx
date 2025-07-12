@@ -60,7 +60,7 @@ navigate('/crear-poder');
 
 return (
   <nav className="navbar">
-    <div className="logo">PokéBuilder</div>
+    <div className="logo">Poké-Miauricio</div>
     <div className="nav-links">
       <span className="username">Hola, {username}</span>
       {isAdmin && (

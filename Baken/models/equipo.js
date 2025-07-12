@@ -6,7 +6,7 @@ const Equipo = sequelize.define('Equipo', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  usuarioId: {  // clave foránea a usuario
+  usuarioId: {  
     type: DataTypes.INTEGER,
     allowNull: false,
   }

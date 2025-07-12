@@ -111,7 +111,7 @@ export default function CrearPoderPage() {
   const handleEditarItem = (item) => {
     setEditItemId(item.id);
     setNombreItem(item.nombre);
-    setImagenItem(null); // no recargamos imagen previa
+    setImagenItem(null); 
   };
 
   const handleEliminarItem = async (id) => {

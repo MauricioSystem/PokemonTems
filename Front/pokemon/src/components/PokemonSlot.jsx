@@ -15,7 +15,7 @@ export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actua
   }, [poke]);
 
   useEffect(() => {
-    const naturaleza = tiposNaturaleza.find(n => n.id === poke.naturalezaId);
+    const naturaleza = tiposNaturaleza.find(n => n.id === parseInt(poke.naturalezaId));
     setBoostStat(naturaleza?.afectaStatPos || null);
     setNerfStat(naturaleza?.afectaStatNeg || null);
   }, [poke.naturalezaId, tiposNaturaleza]);
@@ -24,6 +24,28 @@ export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actua
     const item = items.find(i => i.id === poke.itemId);
     setItemSeleccionado(item || null);
   }, [poke.itemId, items]);
+
+  const statBaseMap = {
+    hp: poke.hp,
+    attack: poke.attack,
+    defense: poke.defense,
+    spAtk: poke.spAtk,
+    spDef: poke.spDef,
+    speed: poke.speed
+  };
+
+  const getStatTotal = (key, evKey, ivKey) => {
+    let total = (statBaseMap[key] || 0) + (Number(poke[evKey]) || 0) + (Number(poke[ivKey]) || 0);
+    if (key === boostStat) total += 5;
+    if (key === nerfStat) total -= 5;
+    return total;
+  };
+
+  const getStatClass = (statKey) => {
+    if (statKey === boostStat) return 'iv-input boost';
+    if (statKey === nerfStat) return 'iv-input nerf';
+    return 'iv-input';
+  };
 
   const handleEVChange = (stat, value) => {
     const val = Math.min(204, Math.max(0, parseInt(value) || 0));
@@ -35,25 +57,21 @@ export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actua
     actualizarStat(index, stat, val);
   };
 
-  const statBaseMap = {
-    hp: poke.hp,
-    attack: poke.attack,
-    defense: poke.defense,
-    spAtk: poke.spAtk,
-    spDef: poke.spDef,
-    speed: poke.speed
+  const handleNaturalezaChange = (e) => {
+    actualizarStat(index, 'naturalezaId', parseInt(e.target.value));
   };
 
-  const getStatClass = (statKey) => {
-    if (statKey === boostStat) return 'iv-input boost';
-    if (statKey === nerfStat) return 'iv-input nerf';
-    return 'iv-input';
+  const handleNombreChange = (e) => {
+    actualizarStat(index, 'nombre', e.target.value);
   };
 
   return (
     <div className="pokemon-slot">
       <div className="slot-header">
-        <h4>{poke.nombre}</h4>
+        <input type="text" value={poke.nombre || ''}onChange={handleNombreChange}
+          className="nombre-pokemon-input"
+          placeholder="Nombre"
+        />
         <button type="button" onClick={() => eliminarPokemon(index)}>X</button>
       </div>
 
@@ -71,6 +89,7 @@ export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actua
           className="pokemon-img"
         />
       </div>
+
       <div className="tipo-texto">
         Tipo: <strong>{poke.tipo}</strong>
       </div>
@@ -89,34 +108,26 @@ export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actua
           />
         ))}
 
-        <label>IVs (0–31) con base</label>
+        <label>IVs (0–31)</label>
         <div className="ivs-row">
-          {[
-            { key: 'ivHp', statKey: 'hp' },
-            { key: 'ivAtk', statKey: 'attack' },
-            { key: 'ivDef', statKey: 'defense' },
-            { key: 'ivSpAtk', statKey: 'spAtk' },
-            { key: 'ivSpDef', statKey: 'spDef' },
-            { key: 'ivSpeed', statKey: 'speed' }
-          ].map(({ key, statKey }) => (
-            <div key={key} className="iv-with-stat">
+          {[{ k: 'ivHp', s: 'hp' }, { k: 'ivAtk', s: 'attack' }, { k: 'ivDef', s: 'defense' }, { k: 'ivSpAtk', s: 'spAtk' }, { k: 'ivSpDef', s: 'spDef' }, { k: 'ivSpeed', s: 'speed' }]
+            .map(({ k, s }) => (
               <input
+                key={k}
                 type="number"
-                placeholder={key}
-                className={getStatClass(statKey)}
-                value={poke[key] === 0 ? '' : poke[key]}
-                onChange={(e) => handleIVChange(key, e.target.value)}
+                placeholder={k}
+                className={getStatClass(s)}
+                value={poke[k] === 0 ? '' : poke[k]}
+                onChange={(e) => handleIVChange(k, e.target.value)}
                 min={0}
                 max={31}
               />
-              <span className="stat-final">{statBaseMap[statKey]}</span>
-            </div>
-          ))}
+            ))}
         </div>
 
         <select
           value={poke.naturalezaId || ''}
-          onChange={(e) => actualizarStat(index, 'naturalezaId', e.target.value)}
+          onChange={handleNaturalezaChange}
         >
           <option value="">Naturaleza</option>
           {tiposNaturaleza.map(n => (
@@ -133,43 +144,54 @@ export default function PokemonSlot({ poke, index, tiposNaturaleza, items, actua
             <option key={i.id} value={i.id}>{i.nombre}</option>
           ))}
         </select>
-<div className="poderes-section">
-  <label>Poder único (no editable):</label>
-  <input type="text" value={poke.poderU || ''} readOnly />
 
-  <label>Poder 1:</label>
-  <select
-    value={poke.poder1Id || ''}
-    onChange={(e) => actualizarStat(index, 'poder1Id', e.target.value)}
-  >
-    <option value="">Seleccionar poder</option>
-    {poderes.map(p => (
-      <option key={p.id} value={p.id}>{p.nombre}</option>
-    ))}
-  </select>
+        <div className="poderes-section">
+          <label>Poder único:</label>
+          <input type="text" value={poke.poderU || ''} readOnly />
 
-  <label>Poder 2:</label>
-  <select
-    value={poke.poder2Id || ''}
-    onChange={(e) => actualizarStat(index, 'poder2Id', e.target.value)}
-  >
-    <option value="">Seleccionar poder</option>
-    {poderes.map(p => (
-      <option key={p.id} value={p.id}>{p.nombre}</option>
-    ))}
-  </select>
+          {[1, 2, 3].map(n => (
+            <div key={n}>
+              <label>{`Poder ${n}:`}</label>
+              <select
+                value={poke[`poder${n}Id`] || ''}
+                onChange={(e) => actualizarStat(index, `poder${n}Id`, e.target.value)}
+              >
+                <option value="">Seleccionar poder</option>
+                {poderes.map(p => (
+                  <option key={p.id} value={p.id}>{p.nombre}</option>
+                ))}
+              </select>
+            </div>
+          ))}
+        </div>
+      </div>
 
-  <label>Poder 3:</label>
-  <select
-    value={poke.poder3Id || ''}
-    onChange={(e) => actualizarStat(index, 'poder3Id', e.target.value)}
-  >
-    <option value="">Seleccionar poder</option>
-    {poderes.map(p => (
-      <option key={p.id} value={p.id}>{p.nombre}</option>
-    ))}
-  </select>
-</div>
+      <div className="stat-final-section">
+        <h5>Stats Finales</h5>
+        <table>
+          <thead>
+            <tr>
+              <th>Stat</th>
+              <th>Base</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[{ name: 'HP', key: 'hp', ev: 'evHp', iv: 'ivHp' },
+              { name: 'Atk', key: 'attack', ev: 'evAtk', iv: 'ivAtk' },
+              { name: 'Def', key: 'defense', ev: 'evDef', iv: 'ivDef' },
+              { name: 'SpAtk', key: 'spAtk', ev: 'evSpAtk', iv: 'ivSpAtk' },
+              { name: 'SpDef', key: 'spDef', ev: 'evSpDef', iv: 'ivSpDef' },
+              { name: 'Speed', key: 'speed', ev: 'evSpeed', iv: 'ivSpeed' }]
+              .map(({ name, key, ev, iv }) => (
+                <tr key={key}>
+                  <td>{name}</td>
+                  <td>{statBaseMap[key]}</td>
+                  <td>{getStatTotal(key, ev, iv)}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

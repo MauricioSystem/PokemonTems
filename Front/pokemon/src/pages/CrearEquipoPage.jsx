@@ -49,7 +49,7 @@ export default function CrearEquipoPage() {
       nombre: pokemon.nombre,
       imagen: pokemon.imagen,
       tipoId: pokemon.tipoId,
-      tipo: tipoNombre, // ✅ Agregado
+      tipo: tipoNombre, 
       poderU: pokemon.poderU,
       poder1: pokemon.poder1,
       poder2: pokemon.poder2,
@@ -74,10 +74,10 @@ export default function CrearEquipoPage() {
   };
 
   const actualizarStat = (index, field, value) => {
-    const updated = [...miEquipo];
-    updated[index][field] = Number(value);
-    setMiEquipo(updated);
-  };
+  const updated = [...miEquipo];
+  updated[index][field] = field === "nombre" ? value : Number(value);
+  setMiEquipo(updated);
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();

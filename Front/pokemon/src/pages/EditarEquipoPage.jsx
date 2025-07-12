@@ -112,10 +112,11 @@ export default function EditarEquipoPage() {
   };
 
   const actualizarStat = (index, field, value) => {
-    const updated = [...miEquipo];
-    updated[index][field] = Number(value);
-    setMiEquipo(updated);
-  };
+  const updated = [...miEquipo];
+  updated[index][field] = field === "nombre" ? value : Number(value);
+  setMiEquipo(updated);
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
