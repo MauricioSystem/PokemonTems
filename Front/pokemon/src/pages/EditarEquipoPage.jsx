@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api/api';
 import '../styles/CrearEquipoPage.scss';
 import PokemonSlot from '../components/PokemonSlot';
+import BuscadorPokemon from '../components/BuscadorPokemon';
 
 export default function EditarEquipoPage() {
   const { id } = useParams();
@@ -112,11 +113,10 @@ export default function EditarEquipoPage() {
   };
 
   const actualizarStat = (index, field, value) => {
-  const updated = [...miEquipo];
-  updated[index][field] = field === "nombre" ? value : Number(value);
-  setMiEquipo(updated);
-};
-
+    const updated = [...miEquipo];
+    updated[index][field] = field === "nombre" ? value : Number(value);
+    setMiEquipo(updated);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -178,6 +178,12 @@ export default function EditarEquipoPage() {
             ))}
           </div>
         )}
+
+        {/* ✅ Buscador de Pokémon por nombre */}
+        <div className="buscador-pokemon-section">
+          <h4>Buscar Pokémon por nombre</h4>
+          <BuscadorPokemon onSeleccionar={agregarPokemon} />
+        </div>
 
         <h3>Mi equipo</h3>
         <div className="slots-grid">

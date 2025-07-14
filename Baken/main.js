@@ -22,6 +22,8 @@ app.use('/api/tipos', require('./routes/tipo.routes'));
 app.use('/api/naturalezas', require('./routes/naturaleza.routes'));
 
 
+
+
 initModels().then(() => {
   app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en: http://localhost:${PORT}`);

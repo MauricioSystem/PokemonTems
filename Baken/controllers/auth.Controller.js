@@ -79,10 +79,32 @@ const toggleAdmin = async (req, res) => {
   }
 };
 
+const changePassword = async (req, res) => {
+  const { id } = req.params;
+  const {nuevaPassword} = req.body;
+  if (!nuevaPassword) {
+    return res.status(400).json({ error: 'Nueva contraseña es requerida' });
+  }
+  try {
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+    const hashedPassword = await bcrypt.hash(nuevaPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    res.json({ message: 'Contraseña actualizada correctamente' });
+  }catch (error) {
+    res.status(500).json({ error: 'Error al actualizar contraseña' });
+  }
+
+};
+
 module.exports = {
   register,
   login,
   getAllUsers,
-  toggleAdmin
+  toggleAdmin,
+  changePassword
 };
 

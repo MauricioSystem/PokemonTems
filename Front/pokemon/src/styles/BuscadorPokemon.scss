@@ -1,0 +1,41 @@
+.buscador-pokemon {
+  margin: 1rem 0;
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .resultados {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .resultado-card {
+    cursor: pointer;
+    text-align: center;
+    width: 120px;
+    padding: 0.5rem;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    transition: transform 0.2s;
+    background-color: #3e3e3e;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    img {
+      width: 55%;
+      height: auto;
+      border-radius: 50%;
+    }
+
+    p {
+      margin: 0.5rem 0 0;
+    }
+  }
+}

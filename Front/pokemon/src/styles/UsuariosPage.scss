@@ -1,0 +1,84 @@
+.usuarios-container {
+  padding: 2rem;
+  background: linear-gradient(100deg, #42d10e, #005735);;
+  font-family: 'Arial', sans-serif;
+  min-height: 100vh;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #ffffff;
+  }
+
+  .tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+
+    thead {
+      background-color: #497df7;
+      color: white;
+
+      th {
+        padding: 1rem;
+        text-align: left;
+        font-size: 1rem;
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid #ddd;
+
+        &:hover {
+          background-color: #f1f5f9;
+        }
+
+        td {
+          padding: 1rem;
+          font-size: 0.95rem;
+
+          input[type="checkbox"] {
+            transform: scale(1.2);
+            cursor: pointer;
+          }
+
+          input[type="password"] {
+            padding: 0.5rem;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+
+            &:focus {
+              outline: none;
+              border-color: #497df7;
+            }
+          }
+
+          button {
+            padding: 0.4rem 0.8rem;
+            background-color: #497df7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+
+            &:hover {
+              background-color: #2151c2;
+            }
+
+            &:disabled {
+              background-color: #aaa;
+              cursor: not-allowed;
+            }
+          }
+        }
+      }
+    }
+  }
+}

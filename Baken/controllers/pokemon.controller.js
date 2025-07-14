@@ -1,6 +1,8 @@
 const db = require('../models');
 const Pokemon = db.Pokemon;
 const path = require('path');
+const { Op } = require('sequelize');
+
 
 const createPokemon = async (req, res) => {
   try {
@@ -62,10 +64,38 @@ const deletePokemon = async (req, res) => {
   }
 };
 
+const searchByName = async (req, res) => {
+  try {
+    let nombre = req.query.nombre;
+    if (!nombre) {
+      return res.status(400).json({ error: 'Parámetro "nombre" requerido' });
+    }
+
+    nombre = nombre.replace(/\s+/g, '').toLowerCase();
+
+    const pokemons = await Pokemon.findAll({
+      where: {
+        equipoId: null
+      }
+    });
+    const filtrados = pokemons.filter(p =>
+      p.nombre.replace(/\s+/g, '').toLowerCase().includes(nombre)
+    )
+
+
+    res.json(filtrados);
+  } catch (error) {
+    console.error('Error en búsqueda por nombre:', error);
+    res.status(500).json({ error: 'Error al buscar Pokémon', detalle: error.message });
+  }
+};
+
+
 module.exports = {
   createPokemon,
   getAll,
   getById,
   updatePokemon,
-  deletePokemon
+  deletePokemon,
+  searchByName
 };

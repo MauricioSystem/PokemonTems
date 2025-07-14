@@ -7,7 +7,8 @@ const {
   getAll,
   getById,
   updatePokemon,
-  deletePokemon
+  deletePokemon,
+  searchByName
 } = require('../controllers/pokemon.controller');
 
 
@@ -23,5 +24,6 @@ router.get('/', getAll);
 router.get('/:id', getById);
 router.put('/:id', upload.single('imagen'), updatePokemon);
 router.delete('/:id', deletePokemon);
+router.get('/buscar/nombre', searchByName);
 
 module.exports = router;

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
 import '../styles/CrearEquipoPage.scss';
 import PokemonSlot from '../components/PokemonSlot';
+import BuscadorPokemon from '../components/BuscadorPokemon';
+
 
 export default function CrearEquipoPage() {
   const [nombreEquipo, setNombreEquipo] = useState('');
@@ -106,57 +108,62 @@ export default function CrearEquipoPage() {
   };
 
   return (
-    <div className="crear-equipo-container">
-      <h2>Crear Equipo Pokémon</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Nombre del equipo"
-          value={nombreEquipo}
-          onChange={(e) => setNombreEquipo(e.target.value)}
-          required
-        />
+  <div className="crear-equipo-container">
+    <h2>Crear Equipo Pokémon</h2>
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Nombre del equipo"
+        value={nombreEquipo}
+        onChange={(e) => setNombreEquipo(e.target.value)}
+        required
+      />
 
-        <button
-          type="button"
-          className="toggle-seleccion"
-          onClick={() => setMostrarSeleccion(!mostrarSeleccion)}
-        >
-          {mostrarSeleccion ? 'Ocultar Pokémon Disponibles' : 'Seleccionar Pokémon'}
-        </button>
+      <button
+        type="button"
+        className="toggle-seleccion"
+        onClick={() => setMostrarSeleccion(!mostrarSeleccion)}
+      >
+        {mostrarSeleccion ? 'Ocultar Pokémon Disponibles' : 'Seleccionar Pokémon'}
+      </button>
 
-        {mostrarSeleccion && (
-          <div className="seleccion-pokemon">
-            {pokemonsDisponibles.map(p => (
-              <div key={p.id} className="pokemon-card" onClick={() => agregarPokemon(p)}>
-                <img
-                  src={p.imagen.startsWith('http') ? p.imagen : `http://localhost:3000${p.imagen}`}
-                  alt={p.nombre}
-                />
-                <p>{p.nombre}</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        <h3>Mi equipo</h3>
-        <div className="slots-grid">
-          {miEquipo.map((poke, index) => (
-            <PokemonSlot
-              key={index}
-              poke={poke}
-              index={index}
-              tiposNaturaleza={tiposNaturaleza}
-              items={items}
-              actualizarStat={actualizarStat}
-              eliminarPokemon={eliminarPokemon}
-              poderes={poderes}
-            />
+      {mostrarSeleccion && (
+        <div className="seleccion-pokemon">
+          {pokemonsDisponibles.map(p => (
+            <div key={p.id} className="pokemon-card" onClick={() => agregarPokemon(p)}>
+              <img
+                src={p.imagen.startsWith('http') ? p.imagen : `http://localhost:3000${p.imagen}`}
+                alt={p.nombre}
+              />
+              <p>{p.nombre}</p>
+            </div>
           ))}
         </div>
+      )}
 
-        <button type="submit" className="guardar-equipo-btn">Guardar Equipo</button>
-      </form>
-    </div>
-  );
+      <div className="buscador-pokemon-section">
+        <h4>Buscar Pokémon por nombre</h4>
+        <BuscadorPokemon onSeleccionar={agregarPokemon} />
+      </div>
+
+      <h3>Mi equipo</h3>
+      <div className="slots-grid">
+        {miEquipo.map((poke, index) => (
+          <PokemonSlot
+            key={index}
+            poke={poke}
+            index={index}
+            tiposNaturaleza={tiposNaturaleza}
+            items={items}
+            actualizarStat={actualizarStat}
+            eliminarPokemon={eliminarPokemon}
+            poderes={poderes}
+          />
+        ))}
+      </div>
+
+      <button type="submit" className="guardar-equipo-btn">Guardar Equipo</button>
+    </form>
+  </div>
+);
 }
