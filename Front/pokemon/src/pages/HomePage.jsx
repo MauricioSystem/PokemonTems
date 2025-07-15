@@ -47,49 +47,59 @@ export default function HomePage() {
       console.error('Error al eliminar equipo:', error);
     }
   };
+return (
+  <div className="home-container">
+    <Navbar />
+    <h1>Hola, {username}</h1>
+    <p>Bienvenido al creador de equipos Pokémon. ¡Prepárate para armar tu mejor escuadrón!</p>
 
-  return (
-    <div className="home-container">
-      <Navbar />
-      <h1>Hola, {username} </h1>
-      <p>Bienvenido al creador de equipos Pokémon. ¡Prepárate para armar tu mejor escuadrón!</p>
+    {loading ? (
+      <p>Cargando equipos...</p>
+    ) : equipos.length === 0 ? (
+      <p className="sin-equipos">Usuario sin equipos</p>
+    ) : (
+      <div className="equipos-grid">
+        {equipos.map(equipo => (
+          <div key={equipo.id} className="equipo-card">
+            <div className="nombre-equipo">{equipo.nombre}</div>
 
-      {loading ? (
-        <p>Cargando equipos...</p>
-      ) : equipos.length === 0 ? (
-        <p className="sin-equipos">Usuario sin equipos</p>
-      ) : (
-        <div className="equipos-grid">
-          {equipos.map(equipo => (
-            <div key={equipo.id} className="equipo-card">
-              <h3>{equipo.nombre}</h3>
-              <div className="pokemon-grid">
-                {equipo.pokemons && equipo.pokemons.length > 0 ? (
-                  equipo.pokemons.map(p => (
-                    <div key={p.id} className="pokemon-item">
+            <div className="pokemon-linea">
+              {equipo.pokemons && equipo.pokemons.length > 0 ? (
+                <>
+                  {equipo.pokemons.map(p => (
+                    <div key={p.id} className="pokemon-celda">
                       <img
                         src={p.imagen.startsWith('http') ? p.imagen : `http://localhost:3000${p.imagen}`}
                         alt={p.nombre}
                       />
                       <p>{p.nombre}</p>
                     </div>
-                  ))
-                ) : (
-                  <p className="sin-pokemon">Equipo sin Pokémon</p>
-                )}
-              </div>
-              <div className="equipo-actions">
-                <button onClick={() => handleEditar(equipo.id)}>Editar equipo</button>
-                <button onClick={() => handleEliminar(equipo.id)}>Eliminar equipo</button>
-              </div>
+                  ))}
+                  {[...Array(6 - equipo.pokemons.length)].map((_, i) => (
+                    <div key={`slot-vacio-${i}`} className="pokemon-celda slot-vacio" />
+                  ))}
+                </>
+              ) : (
+                <>
+                  {[...Array(6)].map((_, i) => (
+                    <div key={`slot-vacio-${i}`} className="pokemon-celda slot-vacio" />
+                  ))}
+                </>
+              )}
             </div>
-          ))}
-        </div>
-      )}
 
-      <div className="crear-equipo-btn-container">
-        <button onClick={handleCrearEquipo}>Crear nuevo equipo</button>
+            <div className="equipo-actions">
+              <button onClick={() => handleEditar(equipo.id)}>Editar equipo</button>
+              <button onClick={() => handleEliminar(equipo.id)}>Eliminar equipo</button>
+            </div>
+          </div>
+        ))}
       </div>
+    )}
+
+    <div className="crear-equipo-btn-container">
+      <button onClick={handleCrearEquipo}>Crear nuevo equipo</button>
     </div>
-  );
+  </div>
+);
 }

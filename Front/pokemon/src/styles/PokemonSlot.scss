@@ -18,18 +18,17 @@
   gap: 0.7rem;
   font-family: 'Segoe UI', sans-serif;
 
-.nombre-pokemon-editable {
-  background: #f0f0f0;
-  color: #222;
-  padding: 0.4rem 0.6rem;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: bold;
-  outline: none;
-  border: 1px solid #aaa;
-  width: 100%;
-}
-
+  .nombre-pokemon-editable {
+    background: #f0f0f0;
+    color: #222;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    outline: none;
+    border: 1px solid #aaa;
+    width: 100%;
+  }
 
   .slot-header {
     display: flex;
@@ -120,14 +119,69 @@
         }
       }
     }
+
+    .poderes-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-top: 0.7rem;
+
+      label {
+        font-weight: 500;
+        color: #e1e1e1;
+      }
+
+      select, input {
+        background: #444;
+        color: white;
+        border: none;
+        padding: 0.4rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .stat-final-section {
+    margin-top: 2px;
+    padding-top: 0.5px;
+
+
+    h5 {
+      margin-bottom: 0.4rem;
+      font-size: 1rem;
+      color: #e8e8e8;
+      border-bottom: 1px solid #555;
+      padding-bottom: 0.2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.4rem;
+
+      th, td {
+        padding: 0.3rem 0.4rem;
+        text-align: left;
+        font-size: 0.85rem;
+      }
+
+      th {
+        color: #f3f3f3;
+        font-weight: bold;
+        border-bottom: 1px solid #aaa;
+      }
+
+      td {
+        color: #f1f1f1;
+      }
+    }
   }
 
   .iv-input.boost {
     border: 2px solid #00ff2a !important;
-    background:  linear-gradient(133deg, #3af13daa, #34f4b4ab, hsla(72, 87%, 48%, 0.651));
+    background: linear-gradient(133deg, #3af13daa, #34f4b4ab, hsla(72, 87%, 48%, 0.651));
     animation: gradienShift 12s ease infinite;
-
-    
   }
 
   .iv-input.nerf {
@@ -135,9 +189,10 @@
     background: linear-gradient(133deg, #ff0000b9, #f58326c5, #fff127b9);
     animation: gradienShit 12s ease infinite;
   }
-@keyframes gradienShift{
-  0% {background-position: 0% 50%; }
-  50% {background-position: 100% 50%; }
-  100% {background-position: 0% 50%; }
-}
+
+  @keyframes gradienShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 }

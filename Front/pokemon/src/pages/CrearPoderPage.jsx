@@ -7,7 +7,6 @@ export default function CrearPoderPage() {
   const [descripcion, setDescripcion] = useState('');
   const [esUnico, setEsUnico] = useState(false);
   const [pokemonBase, setPokemonBase] = useState('');
-  const [pokemons] = useState([]);
 
   const [poderes, setPoderes] = useState([]);
   const [editPoderId, setEditPoderId] = useState(null);
@@ -154,22 +153,6 @@ return (
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
           />
-          <label>
-            <input
-              type="checkbox"
-              checked={esUnico}
-              onChange={(e) => setEsUnico(e.target.checked)}
-            />
-            Poder único
-          </label>
-          {esUnico && (
-            <select value={pokemonBase} onChange={(e) => setPokemonBase(e.target.value)}>
-              <option value="">Seleccione un Pokémon</option>
-              {pokemons.map((p) => (
-                <option key={p.id} value={p.nombre}>{p.nombre}</option>
-              ))}
-            </select>
-          )}
           <button type="submit">{editPoderId ? 'Actualizar' : 'Crear'} Poder</button>
         </form>
 

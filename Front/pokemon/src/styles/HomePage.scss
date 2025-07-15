@@ -6,9 +6,7 @@
   animation: gradientShift 12s ease infinite;
   padding: 2rem;
   font-family: 'Segoe UI', sans-serif;
-  color: #333;
   overflow-x: hidden;
-
   display: flex;
   flex-direction: column;
 }
@@ -33,75 +31,93 @@ p {
   100% { background-position: 0% 50%; }
 }
 
-
-
 .equipos-grid {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 2rem;
   margin-top: 2rem;
-  justify-content: center;
+  align-items: flex-start;
 }
 
 .equipo-card {
-  background: rgb(229, 229, 229);
-  border-radius: 5px;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  width: 420px;
+
+  background: rgba(216, 216, 216, 0.64);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  width: 75%;
+  font-display: flex;
+  flex-direction: column;
+}
+
+.nombre-equipo {
+  width: 100%;
   text-align: center;
-}
-
-.equipo-card h3 {
   font-size: 1.3rem;
-  margin-bottom: 1rem;
-  color: #000000;
+  font-weight: bold;
+  padding: 0.5rem 0;
+  color: rgb(0, 0, 0);
+  border-radius: 8px;
 }
 
-.pokemon-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.8rem;
-  margin-bottom: 1rem;
+.pokemon-linea {
+  display: flex;
+  gap: 75px;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: auto;
 }
 
-.pokemon-item {
+.pokemon-celda {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0.5rem;
+  border-radius: 10px;
+  width: 100px;
+  min-width: 100px;
+  flex-shrink: 0;
 }
 
-.pokemon-item img {
-  width: 70px;
-  height: 70px;
+.pokemon-celda img {
+  width: 80px;
+  height: 80px;
   object-fit: cover;
   border-radius: 8px;
-  border: 2px solid #ccc;
 }
 
-.pokemon-item p {
-  font-size: 0.9rem;
-  color: #444;
+.pokemon-celda p {
   margin-top: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+}
+
+.pokemon-celda.slot-vacio {
+  border: 2px dashed #5f5f5f;
 }
 
 .equipo-actions {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
 }
 
+
 .equipo-actions button {
-  flex: 1;
   background-color: #f44336;
   border: none;
   color: white;
-  padding: 0.5rem;
-  border-radius: 6px;
+  width: 200px;;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  white-space: wrap;
 }
 
 .equipo-actions button:hover {
@@ -142,6 +158,5 @@ p {
   font-size: 1rem;
   color: #000000;
   font-style: italic;
-  grid-column: span 3;
   text-align: center;
 }

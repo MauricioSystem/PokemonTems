@@ -1,0 +1,24 @@
+.audio-player {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #373535;
+  padding: 10px;
+  border-radius: 12px;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  input[type="range"] {
+    width: 100px;
+  }
+}
